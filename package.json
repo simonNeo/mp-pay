@@ -1,7 +1,8 @@
 {
   "name": "mp-pay",
-  "version": "1.0.0",
-  "description": "小程序支付",
+  "version": "0.0.1",
+  "private": false,
+  "description": "node mp pay for wechat/douyin mini app. 微信/抖音小程序支付node对接",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -10,8 +11,8 @@
   "scripts": {
     "build": "rm -rf ./dist && tsc"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["mp", "mini-app", "douyin", "tt", "touxiao", "pay", "wechat pay", "wx"],
+  "author": "simon<simon@sayto.top>",
   "license": "ISC",
   "dependencies": {
     "superagent": "^8.0.9"
