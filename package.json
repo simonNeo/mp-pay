@@ -9,7 +9,8 @@
     "dist"
   ],
   "scripts": {
-    "build": "rm -rf ./dist && tsc"
+    "build": "rm -rf ./dist && tsc",
+    "test": "node ./test/pay.js"
   },
   "keywords": ["mp", "mini-app", "douyin", "tt", "touxiao", "pay", "wechat pay", "wx"],
   "author": "simon<simon@sayto.top>",
