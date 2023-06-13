@@ -12,14 +12,24 @@
     "build": "rm -rf ./dist && tsc",
     "test": "node ./test/pay.js"
   },
-  "keywords": ["mp", "mini-app", "douyin", "tt", "touxiao", "pay", "wechat pay", "wx"],
+  "keywords": [
+    "mp",
+    "mini-app",
+    "douyin",
+    "tt",
+    "touxiao",
+    "pay",
+    "wechat pay",
+    "wx"
+  ],
   "author": "simon<simon@sayto.top>",
   "license": "ISC",
   "dependencies": {
-    "superagent": "^8.0.9"
+    "bent": "^7.3.12"
   },
   "devDependencies": {
-    "typescript": "^5.1.3",
-    "ts-node": "^9.1.1"
+    "@types/bent": "^7.3.3",
+    "ts-node": "^9.1.1",
+    "typescript": "^5.1.3"
   }
 }

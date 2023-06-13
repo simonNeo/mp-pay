@@ -3,6 +3,11 @@ import { IWechatPrepayP } from "./wechat";
 
 export type TSupportedChannel = 'wx' | 'tt';
 export type TLogLevel = 'log' | 'warn' | 'error';
+export type TSupportedMethod = 'POST' | 'GET' | 'PUT';
+
+export interface IParams {
+  [key: string]: any;
+}
 
 export interface IOptionsTouTiao {
   appId: string;
@@ -16,8 +21,6 @@ export interface IOptions {
   tt?: IOptionsTouTiao;
   wx?: IOptionsWechat;
 }
-
-type InferOption<T> = T extends 'wx' ? IWechatPrepayP : unknown;
 
 export interface IWechatPrepayParams extends IWechatPrepayP {
   channel: 'wx';

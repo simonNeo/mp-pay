@@ -11,4 +11,17 @@ export class Util {
     const template = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     return Util.randomFromTemplate(template, len);
   }
+  
+  /**
+   * 获取时间戳，注意平台要求是10位（秒级）还是13位（毫秒级）
+   * 默认type = s，返回秒级时间戳
+   * @param type s: 秒级时间戳, ms: 毫秒级时间戳
+   */
+  static timeStamp(type = 's' as 's' | 'ms') {
+    const now = Date.now();
+    if (type === 's') {
+      return Math.floor(now / 1000);
+    }
+    return now;
+  }
 }

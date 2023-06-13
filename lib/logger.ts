@@ -1,5 +1,5 @@
 import { TLogLevel } from "../types";
-import { moduleName } from "./constants";
+import { MODULE_NAME } from "./constants";
 
 export class Logger {
   private logLevel: TLogLevel[];
@@ -7,7 +7,7 @@ export class Logger {
     this.logLevel = Array.isArray(logLevel) ? logLevel : [logLevel];
   }
   logPrefix () {
-    return `[${moduleName}]: `;
+    return `[${MODULE_NAME}]: `;
   }
   warn (...params: any[]) {
     if (this.logLevel.includes('warn')) {
