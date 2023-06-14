@@ -19,7 +19,19 @@ export interface IOptionsWechat {
   privateKeyPath?: string;
 
   /**
-   * 证书序列号
+   * 公钥内容字符串或buffer
+   * 和publicKeyPath二选一
+   */
+  publicKey?: string | Buffer;
+
+  /**
+   * 公钥文件路径
+   * 和publicKey二选一
+   */
+  publicKeyPath?: string;
+
+  /**
+   * 证书序列号， 如未配置，会根据公钥自动获取
    */
   serialNo?: string;
   

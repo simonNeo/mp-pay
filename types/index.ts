@@ -1,4 +1,4 @@
-import { ITouTiaoPrepayParams } from "./toutiao";
+import { ITouTiaoPrepayParams, ITouTiaoPrepayResult } from "./toutiao";
 import { IOptionsWechat, IWechatPrepayParams, IWechatPrepayResult } from "./wechat";
 
 export type TSupportedChannel = 'wx' | 'tt';
@@ -24,4 +24,4 @@ export interface IRequestTouTiaoPrepayParams extends ITouTiaoPrepayParams {
 }
 
 export type TPrepayParams = IRequestWechatPrepayParams | IRequestTouTiaoPrepayParams;
-export type TPrepayResult = IWechatPrepayResult;
+export type TPrepayResult = IWechatPrepayResult | ITouTiaoPrepayResult;

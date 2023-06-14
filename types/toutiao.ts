@@ -24,3 +24,7 @@ export interface ITouTiaoPrepayParams {
   };
   limit_pay_way?: string;
 }
+
+export interface ITouTiaoPrepayResult {
+  order_id: string;
+}

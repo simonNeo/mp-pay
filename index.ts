@@ -2,8 +2,7 @@ import { PayManager } from "./lib/core/PayManager";
 import { TouTiaoPayManager } from "./lib/core/TouTiaoPayManager";
 import { WechatPayManager } from "./lib/core/WechatPayManager";
 import { Logger } from "./lib/logger";
-import { IOptions, IOptionsTouTiao, IOptionsWechat, TPrepayParams, TSupportedChannel } from "./types";
-import { IWechatPrepayParams } from "./types/wechat";
+import { IOptions, TPrepayParams, TSupportedChannel } from "./types";
 
 export class MpPay {
   private logger: Logger;

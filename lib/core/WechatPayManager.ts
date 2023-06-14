@@ -14,7 +14,6 @@ export class WechatPayManager extends PayManager {
   private options: IOptionsWechat;
   private httpPost = bent(WX_PAY_API_URL, 'POST', 'json', 200);
   // private httpGet = bent(WX_PAY_API_URL, 'GET', 'json', 200);
-  private cachedPrivateKey: string | Buffer | undefined;
 
   constructor(options: IOptionsWechat, logger: Logger) {
     super();
@@ -26,17 +25,13 @@ export class WechatPayManager extends PayManager {
    * 获取私钥
    */
   private getPrivateKey(): string | Buffer {
-    if (this.cachedPrivateKey) {
-      return this.cachedPrivateKey;
-    }
     const { privateKey, privateKeyPath } = this.options;
     if (privateKey) {
-      this.cachedPrivateKey = privateKey;
       return privateKey;
     }
     if (privateKeyPath) {
       const buffer = this.readFile(privateKeyPath);
-      this.cachedPrivateKey = buffer;
+      this.options.privateKey = buffer;
       return buffer;
     }
     this.logger.error('微信支付私钥未配置, 请检查配置项privateKey或privateKeyPath');
@@ -76,16 +71,15 @@ export class WechatPayManager extends PayManager {
     return crypto.createSign('RSA-SHA256').update(str).sign(key, 'base64');
   }
 
-
+  /**
+   * 获取请求头Authorization
+   */
   private getAuthorization(method: TSupportedMethods, url: string, body?: string | Record<string, any>) {
-    if (!this.options.serialNo) {
-      this.logger.error('微信支付证书序列号未配置, 请检查配置项serialNo');
-      throw new Error('wechat pay serialNo missed');
-    }
+    const sn = this.getSerialNumber();
     const nonceStr = Util.randomString(16);
     const timestamp = Util.timestamp();
     const signature = this.getSignature(method, nonceStr, timestamp, url, body);
-    const authorization = `${WX_AUTHORIZATION_TYPE} mchid="${this.options.mchId}",nonce_str="${nonceStr}",timestamp="${timestamp}",serial_no="${this.options.serialNo}",signature="${signature}"`;
+    const authorization = `${WX_AUTHORIZATION_TYPE} mchid="${this.options.mchId}",nonce_str="${nonceStr}",timestamp="${timestamp}",serial_no="${sn}",signature="${signature}"`;
     this.logger.log('authorization:', authorization);
     return authorization;
   }
@@ -108,9 +102,41 @@ export class WechatPayManager extends PayManager {
       throw error;
     }
   }
+
+  // AEAD_AES_256_GCM for node
+  private aeadAes256GcmEncrypt(associatedData: string, nonce: string, plaintext: string, key: string) {
+    const encrypted = Buffer.from(plaintext, 'base64');
+    const decipher = crypto.createDecipheriv('aes-256-gcm', key, nonce);
+    decipher.setAuthTag(encrypted.subarray(-16));
+    decipher.setAAD(Buffer.from(associatedData));
+    const output = Buffer.concat([
+      decipher.update(encrypted.subarray(0, -16)),
+      decipher.final(),
+    ]);
+    return output.toString();
+  }
+
+  public getSerialNumber() {
+    if (this.options.serialNo) {
+      return this.options.serialNo;
+    }
+    let publicKey = this.options.publicKey;
+    if (!publicKey) {
+      if (!this.options.publicKeyPath) {
+        this.logger.error('微信支付证书序列号未配置, 请检查配置项publicKey或publicKeyPath');
+        throw new Error('wechat pay publicKey missed');
+      }
+      publicKey = this.readFile(this.options.publicKeyPath);
+    }
+    if (typeof publicKey === 'string') {
+      publicKey = Buffer.from(publicKey);
+    }
+    const pem = new crypto.X509Certificate(publicKey);
+    this.options.serialNo = pem.serialNumber;
+    return pem.serialNumber;
+  }
   
-  
-  async prepay(params: IRequestWechatPrepayParams) {
+  public async prepay(params: IRequestWechatPrepayParams) {
     const {channel, mchid, appId, ...rest} = params;
     const res = await this.postRequest('/v3/pay/transactions/jsapi', {
       appid: appId || this.options.appId,
@@ -130,7 +156,7 @@ export class WechatPayManager extends PayManager {
     data.paySign = this.sha256WithRSA(strForSign);
     return data;
   }
-  decryptCallback(body: any) {
+  public decryptCallback(body: any) {
     if (!this.options.apiKeyV3) {
       this.logger.error('微信支付v3 apiKey未配置, 请检查配置项apiKeyV3');
       throw new Error('wechat pay apiKeyV3 missed');
@@ -151,17 +177,5 @@ export class WechatPayManager extends PayManager {
     } catch (error) {
       throw error;
     }
-  }
-  // AEAD_AES_256_GCM for node
-  private aeadAes256GcmEncrypt(associatedData: string, nonce: string, plaintext: string, key: string) {
-    const encrypted = Buffer.from(plaintext, 'base64');
-    const decipher = crypto.createDecipheriv('aes-256-gcm', key, nonce);
-    decipher.setAuthTag(encrypted.subarray(-16));
-    decipher.setAAD(Buffer.from(associatedData));
-    const output = Buffer.concat([
-      decipher.update(encrypted.subarray(0, -16)),
-      decipher.final(),
-    ]);
-    return output.toString();
   }
 }
