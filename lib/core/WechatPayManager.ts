@@ -137,15 +137,15 @@ export class WechatPayManager extends PayManager {
   }
   
   public async prepay(params: IRequestWechatPrepayParams) {
-    const {channel, mchid, appId, ...rest} = params;
+    const {channel, ...rest} = params;
     const res = await this.postRequest('/v3/pay/transactions/jsapi', {
-      appid: appId || this.options.appId,
-      mchid: mchid || this.options.mchId,
+      appid: this.options.appId,
+      mchid: this.options.mchId,
       ...rest,
     });
     const { prepay_id } = res;
     const data = {
-      appId: appId || this.options.appId,
+      appId: this.options.appId,
       timeStamp: Util.timestamp() + '',
       nonceStr: Util.randomString(16),
       package: `prepay_id=${prepay_id}`,

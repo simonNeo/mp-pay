@@ -45,8 +45,6 @@ export interface IOptionsWechat {
 
 // 微信支付，预支付参数，见 https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_5_1.shtml
 export interface IWechatPrepayParams {
-  appId?: string; // 可选是因为可以从全局配置中获取
-  mchid?: string; // 可选是因为可以从全局配置中获取
   description: string;
   out_trade_no: string;
   time_expire?: string;
