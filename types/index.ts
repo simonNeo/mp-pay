@@ -7,6 +7,7 @@ export type TSupportedMethods = 'POST' | 'GET' | 'PUT';
 
 export interface IOptionsTouTiao {
   appId: string;
+  salt: string;
 }
 
 export interface IOptions {
