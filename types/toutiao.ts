@@ -4,7 +4,7 @@
  * 抖音小程序支付预下单接口参数
  * 详见： https://developer.open-douyin.com/docs/resource/zh-CN/mini-app/develop/server/ecpay/pay-list/pay
  */
-export interface ITouTiaoPrepayP {
+export interface ITouTiaoPrepayParams {
   app_id?: string;
   out_order_no: string;
   total_amount: number;

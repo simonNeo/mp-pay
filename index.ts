@@ -2,8 +2,8 @@ import { PayManager } from "./lib/core/PayManager";
 import { TouTiaoPayManager } from "./lib/core/TouTiaoPayManager";
 import { WechatPayManager } from "./lib/core/WechatPayManager";
 import { Logger } from "./lib/logger";
-import { IOptions, IOptionsTouTiao, IOptionsWechat, TPrePayParams, TSupportedChannel } from "./types";
-import { IWechatPrepayP } from "./types/wechat";
+import { IOptions, IOptionsTouTiao, IOptionsWechat, TPrepayParams, TSupportedChannel } from "./types";
+import { IWechatPrepayParams } from "./types/wechat";
 
 export class MpPay {
   private logger: Logger;
@@ -40,8 +40,13 @@ export class MpPay {
     throw new Error('unsupported pay channel');
   }
 
-  pay(params: TPrePayParams) {
+  pay(params: TPrepayParams) {
     const manager = this.getManager(params.channel);
-    return manager?.pay(params);
+    return manager?.prepay(params);
+  }
+
+  decryptCallback(channel: TSupportedChannel, body: any) {
+    const manager = this.getManager(channel);
+    return manager?.decryptCallback(body);
   }
 }

@@ -1,18 +1,11 @@
-import { ITouTiaoPrepayP } from "./toutiao";
-import { IWechatPrepayP } from "./wechat";
+import { ITouTiaoPrepayParams } from "./toutiao";
+import { IOptionsWechat, IWechatPrepayParams, IWechatPrepayResult } from "./wechat";
 
 export type TSupportedChannel = 'wx' | 'tt';
 export type TLogLevel = 'log' | 'warn' | 'error';
-export type TSupportedMethod = 'POST' | 'GET' | 'PUT';
-
-export interface IParams {
-  [key: string]: any;
-}
+export type TSupportedMethods = 'POST' | 'GET' | 'PUT';
 
 export interface IOptionsTouTiao {
-  appId: string;
-}
-export interface IOptionsWechat {
   appId: string;
 }
 
@@ -22,12 +15,13 @@ export interface IOptions {
   wx?: IOptionsWechat;
 }
 
-export interface IWechatPrepayParams extends IWechatPrepayP {
+export interface IRequestWechatPrepayParams extends IWechatPrepayParams {
   channel: 'wx';
 }
 
-export interface ITouTiaoPrepayParams extends ITouTiaoPrepayP {
+export interface IRequestTouTiaoPrepayParams extends ITouTiaoPrepayParams {
   channel: 'tt';
 }
 
-export type TPrePayParams = IWechatPrepayParams | ITouTiaoPrepayParams;
+export type TPrepayParams = IRequestWechatPrepayParams | IRequestTouTiaoPrepayParams;
+export type TPrepayResult = IWechatPrepayResult;

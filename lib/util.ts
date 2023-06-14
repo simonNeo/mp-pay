@@ -17,7 +17,7 @@ export class Util {
    * 默认type = s，返回秒级时间戳
    * @param type s: 秒级时间戳, ms: 毫秒级时间戳
    */
-  static timeStamp(type = 's' as 's' | 'ms') {
+  static timestamp(type = 's' as 's' | 'ms') {
     const now = Date.now();
     if (type === 's') {
       return Math.floor(now / 1000);

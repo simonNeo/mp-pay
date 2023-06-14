@@ -1,5 +1,38 @@
+export interface IOptionsWechat {
+  /**
+   * 微信小程序appId
+   */
+  appId: string;
+  /**
+   * 商户号
+   */
+  mchId: string;
+  /**
+   * 密钥内容字符串或buffer
+   * 和privateKeyPath二选一
+   */
+  privateKey?: string | Buffer;
+  /**
+   * 密钥文件路径
+   * 和privateKey二选一
+   */
+  privateKeyPath?: string;
+
+  /**
+   * 证书序列号
+   */
+  serialNo?: string;
+  
+  /**
+   * apiKey v3
+   * 详见 https://pay.weixin.qq.com/wiki/doc/apiv3/wechatpay/wechatpay3_2.shtml
+   */
+  apiKeyV3?: string;
+}
+
+
 // 微信支付，预支付参数，见 https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_5_1.shtml
-export interface IWechatPrepayP {
+export interface IWechatPrepayParams {
   appId?: string; // 可选是因为可以从全局配置中获取
   mchid?: string; // 可选是因为可以从全局配置中获取
   description: string;
@@ -40,4 +73,15 @@ export interface IWechatPrepayP {
   settle_info?: {
     profit_sharing?: boolean;
   };
+}
+
+
+// 微信支付，预支付结果
+export interface IWechatPrepayResult {
+  appId: string;
+  timeStamp: string;
+  nonceStr: string;
+  package: string;
+  signType: string;
+  paySign: string;
 }

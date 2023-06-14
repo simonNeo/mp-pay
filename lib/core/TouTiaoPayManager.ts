@@ -11,5 +11,8 @@ export class TouTiaoPayManager extends PayManager {
     this.logger = logger;
     this.options = options;
   }
-  pay() {}
+  prepay() {}
+  decryptCallback() {
+    
+  }
 }
