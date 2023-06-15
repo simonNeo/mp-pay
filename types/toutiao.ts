@@ -5,13 +5,11 @@
  * 详见： https://developer.open-douyin.com/docs/resource/zh-CN/mini-app/develop/server/ecpay/pay-list/pay
  */
 export interface ITouTiaoPrepayParams {
-  app_id?: string;
   out_order_no: string;
   total_amount: number;
   subject: string;
   body: string;
   valid_time: number;
-  sign: string;
   cp_extra?: string;
   notify_url: string;
   thirdparty_id?: string;

@@ -96,7 +96,7 @@ export class WechatPayManager extends PayManager {
       this.logger.log('微信支付POST请求结果：', response);
       return response;
     } catch (error: any) {
-      const {statusCode} = error;
+      // const {statusCode} = error;
       const json = await error.json?.();
       this.logger.error('微信支付POST请求失败：', json);
       throw error;
